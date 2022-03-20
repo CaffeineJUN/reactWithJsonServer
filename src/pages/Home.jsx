@@ -25,6 +25,8 @@ const rows = [
 const Home = () => {
     let dispatch = useDispatch()
 
+    const {users} = useSelector(state => state.users)
+
     useEffect(() => {
         dispatch(loadUsers())
     }, [])
@@ -38,21 +40,22 @@ const Home = () => {
                         <TableCell align="center">Email</TableCell>
                         <TableCell align="center">Contact</TableCell>
                         <TableCell align="center">Address</TableCell>
-                        <TableCell align="center">Action</TableCell>
+                        <TableCell align="center">website</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {/* {rows.map(row => (
-                        <TableRow key={row.name} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-                            <TableCell component="th" scope="row">
-                                {row.name}
-                            </TableCell>
-                            <TableCell align="right">{row.calories}</TableCell>
-                            <TableCell align="right">{row.fat}</TableCell>
-                            <TableCell align="right">{row.carbs}</TableCell>
-                            <TableCell align="right">{row.protein}</TableCell>
-                        </TableRow>
-                    ))} */}
+                    {users &&
+                        users.map(user => (
+                            <TableRow key={user.id} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
+                                <TableCell component="th" scope="row" align="center">
+                                    {user.name}
+                                </TableCell>
+                                <TableCell align="center">{user.email}</TableCell>
+                                <TableCell align="center">{user.phone}</TableCell>
+                                <TableCell align="center">{user.address.street}</TableCell>
+                                <TableCell align="center">{user.website}</TableCell>
+                            </TableRow>
+                        ))}
                 </TableBody>
             </Table>
         </TableContainer>
