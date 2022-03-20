@@ -1,9 +1,13 @@
 import './App.css'
+import {Routes, Route} from 'react-router-dom'
+import Home from './pages/Home'
 
 function App() {
     return (
         <div>
-            <h1>test</h1>
+            <Routes>
+                <Route exact path="/" element={<Home />} />
+            </Routes>
         </div>
     )
 }
