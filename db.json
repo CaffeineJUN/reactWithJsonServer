@@ -114,6 +114,13 @@
         "catchPhrase": "User-centric fault-tolerant solution",
         "bs": "revolutionize end-to-end systems"
       }
+    },
+    {
+      "name": "june",
+      "email": "j@naver.com",
+      "contact": "010-2234-2314",
+      "address": "jeju",
+      "id": 6
     }
   ]
 }

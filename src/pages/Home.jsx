@@ -8,6 +8,7 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
+import {useNavigate} from 'react-router-dom'
 
 import {useDispatch, useSelector} from 'react-redux'
 import {deleteUser, loadUsers} from '../redux/actions'
@@ -26,6 +27,7 @@ const rows = [
 
 const Home = () => {
     let dispatch = useDispatch()
+    let navigate = useNavigate()
 
     const handelDelete = id => {
         if (window.confirm('Are you sure wanted to delete the user ?')) {
@@ -40,40 +42,52 @@ const Home = () => {
     }, [])
 
     return (
-        <TableContainer component={Paper}>
-            <Table sx={{minWidth: 650}} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell align="center">Name</TableCell>
-                        <TableCell align="center">Email</TableCell>
-                        <TableCell align="center">Contact</TableCell>
-                        <TableCell align="center">Address</TableCell>
-                        <TableCell align="center">Action</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {users &&
-                        users.map(user => (
-                            <TableRow key={user.id} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-                                <TableCell component="th" scope="row" align="center">
-                                    {user.name}
-                                </TableCell>
-                                <TableCell align="center">{user.email}</TableCell>
-                                <TableCell align="center">{user.phone}</TableCell>
-                                <TableCell align="center">{user.address.street}</TableCell>
-                                <TableCell align="center">
-                                    <ButtonGroup disableElevation variant="contained">
-                                        <Button style={{backgroundColor: 'red'}} color="secondary" onClick={() => handelDelete(user.id)}>
-                                            Delete
-                                        </Button>
-                                        <Button>Edit</Button>
-                                    </ButtonGroup>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <>
+            <div>
+                <Button variant="contained" onClick={() => navigate('/addUser')}>
+                    Add User
+                </Button>
+            </div>
+
+            <TableContainer component={Paper}>
+                <Table sx={{minWidth: 650}} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="center">Name</TableCell>
+                            <TableCell align="center">Email</TableCell>
+                            <TableCell align="center">Contact</TableCell>
+                            <TableCell align="center">Address</TableCell>
+                            <TableCell align="center">Action</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {users &&
+                            users.map(user => (
+                                <TableRow key={user.id} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
+                                    <TableCell component="th" scope="row" align="center">
+                                        {user.name}
+                                    </TableCell>
+                                    <TableCell align="center">{user.email}</TableCell>
+                                    <TableCell align="center">{user.phone}</TableCell>
+                                    <TableCell align="center">{user.address.street}</TableCell>
+                                    <TableCell align="center">
+                                        <ButtonGroup disableElevation variant="contained">
+                                            <Button
+                                                style={{backgroundColor: 'red'}}
+                                                color="secondary"
+                                                onClick={() => handelDelete(user.id)}
+                                            >
+                                                Delete
+                                            </Button>
+                                            <Button>Edit</Button>
+                                        </ButtonGroup>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </>
     )
 }
 
