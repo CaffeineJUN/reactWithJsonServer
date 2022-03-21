@@ -6,9 +6,11 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
+import Button from '@mui/material/Button'
+import ButtonGroup from '@mui/material/ButtonGroup'
 
 import {useDispatch, useSelector} from 'react-redux'
-import {loadUsers} from '../redux/actions'
+import {deleteUser, loadUsers} from '../redux/actions'
 
 function createData(name, calories, fat, carbs, protein) {
     return {name, calories, fat, carbs, protein}
@@ -25,6 +27,12 @@ const rows = [
 const Home = () => {
     let dispatch = useDispatch()
 
+    const handelDelete = id => {
+        if (window.confirm('Are you sure wanted to delete the user ?')) {
+            dispatch(deleteUser(id))
+        }
+    }
+
     const {users} = useSelector(state => state.users)
 
     useEffect(() => {
@@ -40,7 +48,7 @@ const Home = () => {
                         <TableCell align="center">Email</TableCell>
                         <TableCell align="center">Contact</TableCell>
                         <TableCell align="center">Address</TableCell>
-                        <TableCell align="center">website</TableCell>
+                        <TableCell align="center">Action</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -53,7 +61,14 @@ const Home = () => {
                                 <TableCell align="center">{user.email}</TableCell>
                                 <TableCell align="center">{user.phone}</TableCell>
                                 <TableCell align="center">{user.address.street}</TableCell>
-                                <TableCell align="center">{user.website}</TableCell>
+                                <TableCell align="center">
+                                    <ButtonGroup disableElevation variant="contained">
+                                        <Button style={{backgroundColor: 'red'}} color="secondary" onClick={() => handelDelete(user.id)}>
+                                            Delete
+                                        </Button>
+                                        <Button>Edit</Button>
+                                    </ButtonGroup>
+                                </TableCell>
                             </TableRow>
                         ))}
                 </TableBody>
