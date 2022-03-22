@@ -116,11 +116,18 @@
       }
     },
     {
-      "name": "june",
+      "name": "james",
       "email": "j@naver.com",
-      "contact": "010-2234-2314",
+      "phone": "010-2234-2314",
       "address": "jeju",
       "id": 6
+    },
+    {
+      "name": "john",
+      "email": "john@naver.com",
+      "phone": "12345-1235",
+      "address": "jeju",
+      "id": 7
     }
   ]
 }

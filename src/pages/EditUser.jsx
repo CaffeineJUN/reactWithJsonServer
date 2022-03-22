@@ -1,11 +1,11 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import TextField from '@mui/material/TextField'
 import {Button} from '@mui/material'
-import {useNavigate} from 'react-router-dom'
-import {useDispatch} from 'react-redux'
-import {addUser} from '../redux/actions'
+import {useNavigate, useParams} from 'react-router-dom'
+import {useDispatch, useSelector} from 'react-redux'
+import {getSingleUser, updateUser} from '../redux/actions'
 
-const AddUser = () => {
+const EditUser = () => {
     const [state, setState] = useState({
         name: '',
         email: '',
@@ -13,9 +13,12 @@ const AddUser = () => {
         address: '',
     })
     const [error, setError] = useState('')
+    let navigate = useNavigate()
+
+    let {id} = useParams()
 
     let dispatch = useDispatch()
-    let navigate = useNavigate()
+    const {user} = useSelector(state => state.users)
 
     const {name, email, phone, address} = state
 
@@ -30,36 +33,46 @@ const AddUser = () => {
         if (!name || !phone || !email || !address) {
             setError('please input all input field')
         } else {
-            dispatch(addUser(state))
+            dispatch(updateUser(state, id))
             navigate('/')
             setError('')
         }
     }
+
+    useEffect(() => {
+        dispatch(getSingleUser(id))
+    }, [])
+
+    useEffect(() => {
+        if (user) {
+            setState({...user})
+        }
+    }, [user])
 
     return (
         <div>
             <Button variant="contained" style={{background: 'red'}} type="submit" onClick={() => navigate('/')}>
                 Go Back
             </Button>
-            <h2>Add User</h2>
+            <h2>Edit User</h2>
             {error && <h3>{error}</h3>}
             <form action="" onSubmit={handleSubmit}>
                 {/* <TextField id="filled-basic" label="Name" variant="filled" value={name} type="text" /> */}
-                <textarea placeholder="name" name="name" id="name" value={name} onChange={handleInputChange} />
+                <textarea placeholder="name" name="name" id="name" value={name || ''} onChange={handleInputChange} />
                 <br />
                 {/* <TextField id="filled-basic" label="Email" variant="filled" value={email} type="email" onChange={e => console.log(e)} /> */}
-                <textarea placeholder="email" name="email" id="email" value={email} onChange={handleInputChange} />
+                <textarea placeholder="email" name="email" id="email" value={email || ''} onChange={handleInputChange} />
                 <br />
                 {/* <TextField id="filled-basic" label="Contact" variant="filled" value={contact} type="number" onChange={handleInputChange} /> */}
-                <textarea placeholder="phone" name="phone" id="phone" value={phone} onChange={handleInputChange} />
+                <textarea placeholder="phone" name="phone" id="phone" value={phone || ''} onChange={handleInputChange} />
                 <br />
                 {/* <TextField id="filled-basic" label="Address" variant="filled" value={address} type="text" onChange={handleInputChange} /> */}
-                <textarea placeholder="address" name="address" id="address" value={address} onChange={handleInputChange} />
+                <textarea placeholder="address" name="address" id="address" value={address || ''} onChange={handleInputChange} />
                 <br />
-                <button> add user</button>
+                <button> Update</button>
             </form>
         </div>
     )
 }
 
-export default AddUser
+export default EditUser
